@@ -9,22 +9,75 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+# Problem 1
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r load_penguins}
+data("penguins", package = "palmerpenguins")
 ```
 
-## Including Plots
+The penguins dataset contains `r nrow(penguins)` rows and `r ncol(penguins)` columns. The important variables include species, island, bill length, flipper length, and body mass. The mean flipper length is `r mean(penguins$flipper_length_mm, na.rm = TRUE)` mm.
 
-You can also embed plots, for example:
+```{r scatterplot}
+library(ggplot2)
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+ggplot(penguins, aes(
+  x = bill_length_mm, y = flipper_length_mm, color = species)) +
+  geom_point() +
+  labs(
+    title = "Scatterplot of Flipper Length vs Bill Length",
+    x = "Bill Length (mm)",
+    y = "Flipper Length (mm)"
+  )
+
+ggsave("scatterplot_penguins.png")
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r save_scatterplot, echo=FALSE}
+ggsave("scatterplot_penguins.png")
+```
+
+# Problem 2
+
+```{r create_dataframe}
+
+library(tidyverse) # Load the tidyverse
+
+set.seed(10) # Set a seed to ensure reproducible results
+
+#### Generate data ####
+# A random sample of size 10 from a standard Normal distribution
+random_sample <- rnorm(10) 
+# A logical vector indicating whether elements of the sample are greater than 0
+logical_vector <- rnorm(10) > 0 
+# A character vector of length 10
+character_vector <- as.character(1:10)
+# A factor vector of length 10, with 3 different factor “levels”
+factor_vector <- factor(rep(c("low", "medium", "high"), length.out = 10))
+
+# Create a data frame
+df <- data.frame(
+  random_sample = random_sample,
+  logical_vector = logical_vector,
+  character_vector = character_vector,
+  factor_vector = factor_vector
+)
+```
+
+```{r take_mean_values}
+mean_values <- df %>%
+  summarise(
+    random_sample_mean = mean(pull(df, random_sample), na.rm = TRUE),
+    logical_vector_mean = mean(pull(df, logical_vector), na.rm = TRUE),
+    character_vector_mean = NA, # Characters_vectors cannot be averaged
+    factor_vector_mean = NA # Factor_vectors cannot be averaged
+  )
+```
+
+```{r convert_variables_type , include=FALSE}
+# TRUE converts to 1 and FALSE converts to 0
+as.numeric(df$logical_vector) 
+# Characters that are valid numeric values will be converted to their numeric form
+as.numeric(df$character_vector)
+# Factor levels "low", "medium", "high" will be converted to 1, 2, 3
+as.numeric(df$factor_vector)
+```
