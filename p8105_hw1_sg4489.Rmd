@@ -64,7 +64,7 @@ df <- data.frame(
 )
 ```
 
-We can calculate the mean for numeric and logical variables (TRUE is considered as 1 and FALSE is considered as 0), but we cannot calculate the mean for character vectors and factor vectors.  
+We can calculate the mean for numeric and logical variables (TRUE is considered as 1 and FALSE is considered as 0), but we cannot calculate the mean for character vectors and factor vectors. 
 
 ```{r take_mean_values}
 mean_values <- df %>%
