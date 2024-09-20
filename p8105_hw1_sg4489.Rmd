@@ -22,16 +22,16 @@ Load penguins dataset:
 data("penguins", package = "palmerpenguins")
 ```
 
-The penguins dataset has `r nrow(penguins)` rows, `r ncol(penguins)` columns. The important variables include species(Adelie, Gentoo, and Chinstrap), island(Torgersen Island, Biscoe Island, and Dream Island), bill length, flipper length, and body mass. The mean flipper length is `r mean(penguins$flipper_length_mm, na.rm = TRUE, digits = 2)` mm.  
+The penguins dataset has `r nrow(penguins)` rows, `r ncol(penguins)` columns. The important variables include species (Adelie, Gentoo, and Chinstrap), island (Torgersen Island, Biscoe Island, and Dream Island), bill length, flipper length, and body mass. The mean flipper length is `r mean(penguins$flipper_length_mm, na.rm = TRUE, digits = 2)` mm.  
 
 ```{r scatterplot, warning=FALSE}
 # Draw the scatterplot
-ggplot(penguins, aes(
-  x = bill_length_mm, y = flipper_length_mm, color = species)) +
+ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
   geom_point() +
   labs(
     title = "Scatterplot of Flipper Length vs Bill Length",
-    x = "Bill Length (mm)", y = "Flipper Length (mm)") +
+    x = "Bill Length (mm)", 
+    y = "Flipper Length (mm)") +
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
@@ -59,7 +59,7 @@ set.seed(10) # Set a seed to ensure reproducible results
 df <- data.frame(
   random_sample = rnorm(10),
   logical_vector = rnorm(10) > 0,
-  character_vector = as.character(1:10),
+  character_vector = c("a", "b", "c", "d", "e", "1", "2", "3", "4", "5"),
   factor_vector =  factor(rep(c("low", "medium", "high"), length.out = 10))
 )
 ```
@@ -77,7 +77,7 @@ mean_values <- df %>%
 ```
 
 Mean of the numeric variable is `r mean_values$random_sample_mean`;  
-mean of the numeric variable is `r mean_values$logical_vector_mean`.  
+mean of the logical variable is `r mean_values$logical_vector_mean`.  
 
 Next, we apply the as.numeric function to logical, character, and factor variables:  
 
@@ -88,7 +88,7 @@ as.numeric(df$factor_vector)
 ```
 
 As you can see, as.numeric:  
-in logical vector, convert TRUE to 1 and FALSE to 0;  
-in character vector, convert characters that are valid numeric values to their numeric form;  
-in factor vectors, factor levels "low", "medium", "high" will be converted to 1, 2, 3.  
+1. In logical vector, converts TRUE to 1 and FALSE to 0. This happens because TRUE and FALSE are treated as binary values (1 and 0 respectively) in numeric contexts.  
+2. In character vector, as.numeric result in NA values and a warning, because character strings cannot be directly converted to numbers unless they represent valid numeric values.  
+3. Factor vectors are converted to their underlying integer codes. Factor levels "low", "medium", "high" will be converted to 1, 2, 3.  
 
