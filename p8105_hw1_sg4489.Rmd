@@ -9,17 +9,22 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r load_packages, echo=FALSE, message=FALSE}
+library(tidyverse)
+library(ggplot2)
+```
+
 # Problem 1
+
+Load penguins dataset:  
 
 ```{r load_penguins}
 data("penguins", package = "palmerpenguins")
 ```
 
-The penguins dataset has `r nrow(penguins)` rows, `r ncol(penguins)` columns. The important variables include species, island, bill length, flipper length, and body mass. The mean flipper length is `r mean(penguins$flipper_length_mm, na.rm = TRUE)` mm.
+The penguins dataset has `r nrow(penguins)` rows, `r ncol(penguins)` columns. The important variables include species(Adelie, Gentoo, and Chinstrap), island(Torgersen Island, Biscoe Island, and Dream Island), bill length, flipper length, and body mass. The mean flipper length is `r mean(penguins$flipper_length_mm, na.rm = TRUE, digits = 2)` mm.  
 
 ```{r scatterplot, warning=FALSE}
-library(ggplot2)
-
 # Draw the scatterplot
 ggplot(penguins, aes(
   x = bill_length_mm, y = flipper_length_mm, color = species)) +
@@ -30,7 +35,9 @@ ggplot(penguins, aes(
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
-The plot above shows flipper length against bill length for penguins in the dataset. Colored by species, the plot reveals three distinct clusters. Penguins of the same species generally share similar bill and flipper lengths: Adelies have the shortest, Chinstraps the longest flippers, and Gentoos the longest bills. While the clusters are well-defined, there is some variation within each, indicating considerable individual differences. There also appears to be a positive correlation between bill length and flipper length.
+The plot above shows flipper length against bill length for penguins in the dataset.  
+Colored by species, the plot reveals three distinct clusters. Penguins of the same species generally share similar bill and flipper lengths: Adelies have the shortest, Chinstraps the longest flippers, and Gentoos the longest bills. While the clusters are well-defined, there is some variation within each, indicating considerable individual differences.  
+There also appears to be a positive correlation between bill length and flipper length.  
 
 ```{r save_scatterplot, echo=FALSE, warning=FALSE, message=FALSE}
 # Save the scatterplot
@@ -39,15 +46,11 @@ ggsave("scatterplot_penguins.png")
 
 # Problem 2
 
-```{r load_tidyverse, echo=FALSE, message=FALSE}
-library(tidyverse) # Load the tidyverse
-```
-
 Here we create is a data frame comprised of:  
-a random sample of size 10 from a standard Normal distribution  
-a logical vector indicating whether elements of the sample are greater than 0  
-a character vector of length 10  
-a factor vector of length 10, with 3 different factor “levels”  
+a random sample of size 10 from a standard Normal distribution;  
+a logical vector indicating whether elements of the sample are greater than 0;  
+a character vector of length 10;  
+a factor vector of length 10, with 3 different factor “levels”.  
 
 ```{r create_dataframe}
 set.seed(10) # Set a seed to ensure reproducible results
@@ -61,7 +64,7 @@ df <- data.frame(
 )
 ```
 
-We can calculate the mean for numeric and logical variables (TRUE is considered as 1 and FALSE is considered as 0), but we cannot calculate the mean for character vectors and factor vectors.
+We can calculate the mean for numeric and logical variables (TRUE is considered as 1 and FALSE is considered as 0), but we cannot calculate the mean for character vectors and factor vectors.  
 
 ```{r take_mean_values}
 mean_values <- df %>%
@@ -74,9 +77,9 @@ mean_values <- df %>%
 ```
 
 Mean of the numeric variable is `r mean_values$random_sample_mean`;  
-Mean of the numeric variable is `r mean_values$logical_vector_mean`.  
+mean of the numeric variable is `r mean_values$logical_vector_mean`.  
 
-Next, we apply the as.numeric function to logical, character, and factor variables
+Next, we apply the as.numeric function to logical, character, and factor variables:  
 
 ```{r convert_variables_type, results='hide'}
 as.numeric(df$logical_vector) 
@@ -85,7 +88,7 @@ as.numeric(df$factor_vector)
 ```
 
 As you can see, as.numeric:  
-In logical vector, convert TRUE to 1 and FALSE to 0;  
-In character vector, convert characters that are valid numeric values to their numeric form;  
-In factor vectors, factor levels "low", "medium", "high" will be converted to 1, 2, 3.
+in logical vector, convert TRUE to 1 and FALSE to 0;  
+in character vector, convert characters that are valid numeric values to their numeric form;  
+in factor vectors, factor levels "low", "medium", "high" will be converted to 1, 2, 3.  
 
